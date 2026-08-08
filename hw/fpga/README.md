@@ -39,8 +39,8 @@ The ARM CPU takes the place of an SOC manager and can drive stimulus to Caliptra
 
 ### Versal ###
 #### Processing system one time setup: ####
-1. Download VCK-190 image
-   - **Recommended**: A development image is built each week and uploaded by [this](https://github.com/chipsalliance/caliptra-sw/actions/workflows/fpga-image.yml) GitHub Action Job. You will want the image with the `-dev` postfix. This image is an almost exact replica of the image used for the Caliptra CI.
+1. Download pre-integrated Caliptra subsystem with PUFrt VCK-190 image
+   - **Recommended**: A pre-integrated Caliptra sybsytem with PUFrt development image is built and uploaded to [this](https://github.com/pufsecurity-caliptra/Caliptra-Subsystem-with-PUFrt/blob/main/images/boot1900.bin) URL.
      - This is a debian based image and should make a similar user experience to the AMD image.
    - Ubuntu VCK190 SD card image and install to a microSD card. The Versal is packaged with a blank microSD card in the box that can be used for the OS.
 1. Insert the OS SD card into the slot on top of the board.

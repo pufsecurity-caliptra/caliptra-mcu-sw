@@ -528,6 +528,11 @@ impl McuHwModel for ModelFpgaRealtime {
             for (dst, src) in otp_data.iter_mut().zip(otp_memory.iter()) {
                 *dst |= *src;
             }
+            // Use PUFrt Block RAM backdoor to reset OTP
+            base.reset_pufrt_otp_bram();
+            // illegal otp reset check
+            let now = base.otp_slice().to_vec();
+            ModelFpgaSubsystem::check_otp_reset(&now, &otp_data);
             base.otp_slice().copy_from_slice(&otp_data);
             base.set_subsystem_reset(false);
         }

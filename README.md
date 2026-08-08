@@ -13,7 +13,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 Do a full clone of the repository
 
 ```shell
-git clone --recursive https://github.com/chipsalliance/caliptra-mcu-sw.git
+git clone --recursive https://github.com/pufsecurity-caliptra/caliptra-mcu-sw.git
 ```
 
 Now you should be able to run all checks and builds:

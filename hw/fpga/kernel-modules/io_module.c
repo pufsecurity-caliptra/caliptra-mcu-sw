@@ -5,10 +5,13 @@
 
 const char caliptra_dev_name0[] = "caliptra-fpga-uio-dev0";
 const char caliptra_dev_name1[] = "caliptra-fpga-uio-dev1";
+const char caliptra_dev_name2[] = "caliptra-fpga-uio-dev2";
 static struct device uio_dev0;
 static struct device uio_dev1;
+static struct device uio_dev2;
 static struct uio_info uio_info0;
 static struct uio_info uio_info1;
+static struct uio_info uio_info2;
 
 static void uio_release(struct device *dev)
 {
@@ -34,6 +37,17 @@ int init_module(void)
     {
         device_unregister(&uio_dev0); // clean up
         printk("Failing to register uio device 1\n");
+        return -ENODEV;
+    }
+
+    // Create UIO devices
+    dev_set_name(&uio_dev2, caliptra_dev_name2);
+    uio_dev2.release = uio_release;
+    if (device_register(&uio_dev2) < 0)
+    {
+        device_unregister(&uio_dev0); // clean up
+        device_unregister(&uio_dev1); // clean up
+        printk("Failing to register uio device 2\n");
         return -ENODEV;
     }
 
@@ -122,6 +136,23 @@ int init_module(void)
         return -EIO;
     }
 
+    // Setup Info
+    uio_info2.name = caliptra_dev_name2;
+    uio_info2.version = "1.0.0";
+
+    // PUFrt Block RAM Backdoor
+    uio_info2.mem[0].name = "rtbram";
+    uio_info2.mem[0].addr = 0xB0100000;
+    uio_info2.mem[0].size = 0x00009000;
+    uio_info2.mem[0].memtype = UIO_MEM_PHYS;
+
+    // Register device
+    if (uio_register_device(&uio_dev2, &uio_info2) < 0)
+    {
+        printk("Failing to register uio device2 \n");
+        return -EIO;
+    }
+
     printk("Initialized uio devices\n");
     return 0;
 }
@@ -129,6 +160,8 @@ int init_module(void)
 void cleanup_module(void)
 {
     printk("Unregister uio devices\n");
+    uio_unregister_device(&uio_info2);
+    device_unregister(&uio_dev2);
     uio_unregister_device(&uio_info1);
     device_unregister(&uio_dev1);
     uio_unregister_device(&uio_info0);
