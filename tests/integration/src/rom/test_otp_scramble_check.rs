@@ -57,7 +57,12 @@ mod test {
         // Seed known raw bytes so the partition is non-zero.
         let seed_value: u64 = 0xFFFF_FFFF_FFFF_FFFF;
         let last = fuses::OTP_PARTITIONS.last().unwrap();
-        let otp_size = last.byte_offset + last.byte_size;
+        let otp_size = {
+            #[cfg(not(feature = "fpga_realtime"))]
+            { last.byte_offset + last.byte_size }
+            #[cfg(feature = "fpga_realtime")]
+            { last.byte_offset + last.byte_size * 2 }
+        };
         let mut otp_data = vec![0u8; otp_size];
         otp_data[partition.byte_offset..partition.byte_offset + 8]
             .copy_from_slice(&seed_value.to_le_bytes());
