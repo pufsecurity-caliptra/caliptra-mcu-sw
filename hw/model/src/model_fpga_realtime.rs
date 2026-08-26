@@ -537,6 +537,13 @@ impl McuHwModel for ModelFpgaRealtime {
             base.set_subsystem_reset(false);
         }
 
+        if let Some(pufrt_otp_bram) = params.pufrt_otp_bram {
+            base.set_subsystem_reset(true);
+            std::thread::sleep(Duration::from_micros(1));
+            base.pufrt_otp_bram_slice().copy_from_slice(&pufrt_otp_bram);
+            base.set_subsystem_reset(false);
+        }
+
         // In Manufacturing lifecycle, enable IDevID CSR generation by writing
         // the GENERATE_IDEVID_CSR flag to cptra_dbg_manuf_service_reg.
         if matches!(

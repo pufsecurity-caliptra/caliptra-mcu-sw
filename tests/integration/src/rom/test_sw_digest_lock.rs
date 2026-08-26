@@ -64,7 +64,12 @@ mod test {
             assert_eq!(hw.mci_fw_fatal_error(), None, "Boot 1 fatal error");
 
             // Capture OTP state for boot 2 (emulator doesn't persist OTP).
-            otp_after_boot1 = hw.read_otp_memory();
+            otp_after_boot1 = {
+                #[cfg(not(feature = "fpga_realtime"))]
+                { hw.read_otp_memory() }
+                #[cfg(feature = "fpga_realtime")]
+                { hw.base.pufrt_otp_bram_slice().to_vec() }
+            };
         }
 
         // Boot 2: verify digest. Pass OTP from boot 1 so emulator sees the
@@ -76,7 +81,10 @@ mod test {
                 check_booted_to_runtime: false,
                 enable_mcu_uart_log: true,
                 lifecycle_controller_state: Some(LifecycleControllerState::Dev),
+                #[cfg(not(feature = "fpga_realtime"))]
                 otp_memory: Some(&otp_after_boot1),
+                #[cfg(feature = "fpga_realtime")]
+                pufrt_otp_bram: Some(&otp_after_boot1),
                 ..Default::default()
             })
             .unwrap();
