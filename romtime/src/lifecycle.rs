@@ -186,12 +186,18 @@ impl Lifecycle {
         self.registers.transition_cmd.set(1);
 
         // Step 4: Poll Status Register
+        let mut start = false;
+        let mut old_status = 0;
         loop {
             let status = self.registers.status.extract();
-            crate::println!(
-                "[mcu-rom-lcc] Polling status register: {}",
-                HexWord(status.get())
-            );
+            if start == false || old_status != status.get() {
+                crate::println!(
+                    "[mcu-rom-lcc] Polling status register: {}",
+                    HexWord(status.get())
+                );
+            }
+            start = true;
+            old_status = status.get();
 
             if status.is_set(lc_ctrl::bits::Status::TransitionSuccessful) {
                 crate::println!("[mcu-rom-lcc] Transition successful.");
