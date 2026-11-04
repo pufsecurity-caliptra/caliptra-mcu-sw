@@ -797,7 +797,7 @@ impl McuManager for &mut ModelEmulated {
     const MBOX_1_ADDR: u32 = 0x2180_0000;
     const MCU_SRAM_ADDR: u32 = 0x21c0_0000;
     const OTP_CTRL_ADDR: u32 = 0x7000_0000;
-    const LC_CTRL_ADDR: u32 = 0x7000_0400;
+    const LC_CTRL_ADDR: u32 = 0x7000_1000;
 }
 
 impl SocManager for &mut ModelEmulated {

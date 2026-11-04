@@ -54,7 +54,7 @@ pub const EMULATOR_MEMORY_MAP: McuMemoryMap = McuMemoryMap {
     otp_size: 0x140,
     otp_properties: MemoryRegionType::MMIO,
 
-    lc_offset: 0x7000_0400,
+    lc_offset: 0x7000_1000,
     lc_size: 0x8c,
     lc_properties: MemoryRegionType::MMIO,
     handoff_offset: 0x5000_3C00,

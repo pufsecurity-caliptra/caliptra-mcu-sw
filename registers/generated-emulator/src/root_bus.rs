@@ -55,7 +55,7 @@ impl Default for AutoRootBusOffsets {
             el2_pic_size: 0x5400,
             otp_offset: 0x7000_0000,
             otp_size: 0x1c4,
-            lc_offset: 0x7000_0400,
+            lc_offset: 0x7000_1000,
             lc_size: 0x8c,
             mbox_offset: 0xa002_0000,
             mbox_size: 0x28,

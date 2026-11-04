@@ -892,7 +892,7 @@ impl FpgaRealtimeBus<'_> {
                 0x2100_0000..0x21e0_0000 => Some(self.mci_mmio.add((addr - 0x2100_0000) / 4)),
                 0x3002_0000..0x3004_0000 => Some(self.caliptra_mmio.add((addr - 0x3000_0000) / 4)),
                 0x7000_0000..0x7000_0140 => Some(self.otp_mmio.add((addr - 0x7000_0000) / 4)),
-                0x7000_0400..0x7000_048c => Some(self.lc_mmio.add((addr - 0x7000_0400) / 4)),
+                0x7000_1000..0x7000_108c => Some(self.lc_mmio.add((addr - 0x7000_1000) / 4)),
                 _ => {
                     println!("Invalid FPGA address 0x{addr:x}");
                     None
@@ -940,7 +940,7 @@ impl McuManager for &mut ModelFpgaRealtime {
     const MBOX_1_ADDR: u32 = 0x2180_0000;
     const MCU_SRAM_ADDR: u32 = 0x21c0_0000;
     const OTP_CTRL_ADDR: u32 = 0x7000_0000;
-    const LC_CTRL_ADDR: u32 = 0x7000_0400;
+    const LC_CTRL_ADDR: u32 = 0x7000_1000;
 }
 
 impl SocManager for &mut ModelFpgaRealtime {

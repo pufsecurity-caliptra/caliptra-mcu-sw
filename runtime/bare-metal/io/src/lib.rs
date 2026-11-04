@@ -70,6 +70,6 @@ pub use emulator::{exit, print, println};
 #[cfg(not(feature = "fpga"))]
 pub const OTP_OFFSET: u32 = 0x7000_0000;
 #[cfg(not(feature = "fpga"))]
-pub const LC_OFFSET: u32 = 0x7000_0400;
+pub const LC_OFFSET: u32 = 0x7000_1000;
 #[cfg(not(feature = "fpga"))]
 pub const MCI_OFFSET: u32 = 0x6000_0000;
